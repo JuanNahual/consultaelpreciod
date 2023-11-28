@@ -1,0 +1,91 @@
+<!-- productos/templates/productos/lista_productos.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+        /* Estilos personalizados para los botones de paginación */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            color: #007bff;
+            padding: 8px 16px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .pagination a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .pagination .current {
+            background-color: #007bff;
+            color: #fff;
+            padding: 8px 16px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+    </style>
+    <title>Lista de Productos</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Lista de Productos</h1>
+
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for producto in productos %}
+          <tr>
+            <td>{{ producto.id }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.descripcion }}</td>
+            <td>${{ producto.precio }}</td>
+            <td>
+              <a href="{% url 'detalle_producto' producto.id %}" class="btn btn-info">Detalles</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <span class="step-links">
+          {% if productos.has_previous %}
+              <a href="?page=1">&laquo; first</a>
+              <a href="?page={{ productos.previous_page_number }}">previous</a>
+          {% endif %}
+
+          <span class="current">
+              Página {{ productos.number }} de {{ productos.paginator.num_pages }}.
+          </span>
+
+          {% if productos.has_next %}
+              <a href="?page={{ productos.next_page_number }}">next</a>
+              <a href="?page={{ productos.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+      </span>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
